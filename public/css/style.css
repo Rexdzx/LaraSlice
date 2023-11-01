@@ -730,7 +730,7 @@ svg {
 
 .swiper-button-prev,
 .swiper-container-rtl .swiper-button-next {
-    background-image: url(..//img/chevron-left.svg) !important;
+    background-image: url(../img/chevron-left.svg) !important;
     left: 18px !important;
     right: auto;
     background-size: 30px !important;
