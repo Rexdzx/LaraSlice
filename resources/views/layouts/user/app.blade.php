@@ -19,7 +19,7 @@
 
     @include('includes.user.footer')
 
-    @include('includes.admin.script');
+    @include('includes.user.script');
 
 </body>
 

@@ -10,7 +10,7 @@
     <style>
         #app,
         html {
-            background-color: #e2e8f0;
+            background-color: #f2f2f2;
         }
     </style>
     @include('includes.admin.style')

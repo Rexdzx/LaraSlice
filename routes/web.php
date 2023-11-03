@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PortfolioController;
+use App\Models\Portfolio;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home', [
+        'portfolio' => Portfolio::all()
+    ]);
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
+
+    Route::resource('portfolio', PortfolioController::class);
+
+    Route::resource('about', AboutController::class);
 });

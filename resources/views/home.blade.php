@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="swiper-container d-flex justify-content-center align-items-center py-5 ">
                     <div class="swiper-wrapper d-flex align-items-center">
-                        <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
+                        {{-- <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
                             <div class="box-portfolio">
                                 <div class="info d-flex py-3" style="margin-left: 46px;">
                                     <img src="img/avatar.jpg" class="rounded-circle" style="width: 60px;" alt="Avatar" />
@@ -104,7 +104,28 @@
                                 <h3 class="title mt-5"><a href="#">Robot 3</a></h3>
                                 <a class="portfolio-btn" href="#">Lihat Profil</a>
                             </div>
-                        </div>
+                        </div> --}}
+
+                        @foreach ($portfolio as $porto)
+                            <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
+                                <div class="box-portfolio">
+                                    <div class="info d-flex py-3" style="margin-left: 46px;">
+                                        <img src="{{ $porto->foto }}" class="rounded-circle" style="width: 60px;"
+                                            alt="Avatar" />
+                                        <h3 class="align-items-center justify-content-center d-flex ms-2">
+                                            {{ $porto->nama }}
+                                        </h3>
+                                    </div>
+                                    <div class="img-portfolio">
+                                        <img src="{{ $porto->portfolio }}" class="img-fluid" alt="">
+                                    </div>
+                                    <h3 class="title mt-5"><a href="#">{{ $porto->judul }}</a></h3>
+                                    <a class="portfolio-btn" href="#">Lihat Profil</a>
+                                </div>
+                            </div>
+                        @endforeach
+
+
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
