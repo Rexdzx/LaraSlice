@@ -1,5 +1,35 @@
 @extends('layouts.admin.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('vendor/dropify/dist/css/dropify.min.css') }}">
+
+    <style>
+        #fotosiswa .dropify-wrapper {
+            width: 304px;
+            border-radius: 10px;
+        }
+
+        .dropify-wrapper {
+            border-radius: 10px
+        }
+
+        .dropify-filename .dropify-filename-inner {
+            display: none;
+        }
+
+        .dropify-infos-inner .dropify-infos-message {
+            font-size: 25px !important;
+            margin: auto !important;
+            padding-top: 0 !important;
+        }
+
+        .dropify-infos-inner,
+        .dropify-infos-message::before {
+            content: none !important
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="main-content">
         <section class="section">
@@ -21,36 +51,25 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label>NISN</label>
-                                <input type="text" name="nisn" value="{{ old('nisn', $siswa->nisn) }}"
-                                    placeholder="Masukkan NISN Siswa"
-                                    class="form-control @error('nisn') is-invalid @enderror" maxlength="16">
+                                <label>NAMA</label>
+                                <input type="text" name="nama" value="{{ old('nama', $portfolio->nama) }}"
+                                    placeholder="Masukkan Nama Siswa"
+                                    class="form-control @error('nama') is-invalid @enderror">
 
-                                @error('nisn')
+                                @error('nama')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label>NAMA SISWA</label>
-                                <input type="text" name="name" value="{{ old('name', $siswa->name) }}"
-                                    placeholder="Masukkan Nama SISWA"
-                                    class="form-control @error('name') is-invalid @enderror">
+                            <div class="form-group" id="fotosiswa">
+                                <label>FOTO SISWA</label>
+                                <input type="file" name="foto" value="{{ old('foto') }}"
+                                    class="dropify form-control @error('foto') is-invalid @enderror" data-height="290"
+                                    data-allowed-file-extensions="png jpg gif jpeg svg webp jfif"
+                                    data-default-file="{{ asset('img/upload/pas_foto/' . $portfolio->foto) }}">
 
-                                @error('name')
-                                    <div class="invalid-feedback" style="display: block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>EMAIL</label>
-                                <input type="email" name="email" value="{{ old('email', $siswa->email) }}"
-                                    placeholder="Masukkan Email" class="form-control @error('email') is-invalid @enderror">
-
-                                @error('email')
+                                @error('foto')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
@@ -58,107 +77,33 @@
                             </div>
 
                             <div class="form-group">
-                                <label>PHONE</label>
-                                <input type="tel" name="phone" value="{{ old('phone', $siswa->phone) }}"
-                                    placeholder="Masukkan Phone" class="form-control @error('phone') is-invalid @enderror">
+                                <label>KARYA SISWA</label>
+                                <input type="file" name="portfolio" value="{{ old('portfolio') }}"
+                                    class="dropify form-control @error('email') is-invalid @enderror" data-height="290"
+                                    data-allowed-file-extensions="png jpg gif jpeg svg webp jfif"
+                                    data-default-file="{{ asset('img/upload/portfolio/' . $portfolio->portfolio) }}">
 
-                                @error('phone')
+                                @error('portfolio')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>KELAS</label>
-                                <select name="kelas_id" class="form-control" id="">
-                                    <option value="">Pilih Kelas</option>
-                                    @foreach ($kelas as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $item->id == $siswa->kelas_id ? 'selected' : '' }}>{{ $item->nama }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                @error('kelas_id')
-                                    <div class="invalid-feedback" style="display: block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>PASSWORD</label>
-                                        <input type="password" name="password" value="{{ old('password') }}"
-                                            placeholder="Masukkan Password"
-                                            class="form-control @error('password') is-invalid @enderror">
-
-                                        @error('password')
-                                            <div class="invalid-feedback" style="display: block">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>PASSWORD</label>
-                                        <input type="password" name="password_confirmation"
-                                            value="{{ old('password_confirmation') }}"
-                                            placeholder="Masukkan Konfirmasi Password" class="form-control">
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="font-weight-bold">STATUS</label>
-                                <select name="status" class="form-control  @error('status') is-invalid @enderror"
-                                    id="">
-                                    <option value="">Pilih Status</option>
-                                    <option value="aktif" {{ $siswa->status == 'aktif' ? 'selected' : '' }}>AKTIF</option>
-                                    <option value="non-aktif" {{ $siswa->status == 'non-aktif' ? 'selected' : '' }}>
-                                        NON-AKTIF</option>
-                                </select>
+                                <label>JUDUL KARYA</label>
+                                <input type="text" name="judul" value="{{ old('judul', $portfolio->judul) }}"
+                                    placeholder="Masukkan Judul" class="form-control @error('judul') is-invalid @enderror">
 
-                                @error('status')
-                                    <div class="invalid-feedback" style="display: block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">JENIS KELAMIN</label>
-                                <select name="jenis_kelamin"
-                                    class="form-control @error('jenis_kelamin') is-invalid @enderror" id="">
-                                    <option value="">Pilih Jenis Kelamin</option>
-                                    <option value="laki-laki" {{ $siswa->jenis_kelamin == 'laki-laki' ? 'selected' : '' }}>
-                                        LAKI-LAKI</option>
-                                    <option value="perempuan" {{ $siswa->jenis_kelamin == 'perempuan' ? 'selected' : '' }}>
-                                        PEREMPUAN</option>
-                                </select>
-                                @error('jenis_kelamin')
+                                @error('judul')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">ALAMAT</label>
-                                <textarea name="alamat" id="" class="form-control @error('alamat') is-invalid @enderror" cols="30"
-                                    placeholder="Masukan Alamat" rows="10">{{ old('alamat', $siswa->alamat) }}
-                                </textarea>
-                                @error('alamat')
-                                    <div class="invalid-feedback" style="display: block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-
-                            </div>
-                            <button class="btn btn-primary mr-1 btn-submit" type="submit"><i
-                                    class="fa fa-paper-plane"></i>
+                            <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
                                 SIMPAN</button>
-                            <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i>
+                            <button class="btn btn-danger btn-reset" type="reset"><i class="fa fa-redo"></i>
                                 RESET</button>
 
                         </form>
@@ -167,4 +112,32 @@
             </div>
         </section>
     </div>
+
+    @push('js')
+        <script type="text/javascript" src="{{ asset('vendor/dropify/dist/js/dropify.min.js') }}"></script>
+        <script type="text/javascript">
+            $('.dropify').dropify({
+                messages: {
+                    default: '<p style="font-size:20px;color:#777">Drag atau Drop untuk memilih gambar</p>',
+                    replace: 'Ganti',
+                    remove: 'Hapus',
+                    error: 'error'
+                }
+            });
+
+            $('.title').keyup(function() {
+                var title = $(this).val().toLowerCase().replace(/[&\/\\#^, +()$~%.'":*?<>{}]/g, '-');
+                $('.slug').val(title);
+            });
+
+            $('.dropify').hover(
+                function() {
+                    $(this).find('.dropify-filename-inner').css('display', 'block');
+                },
+                function() {
+                    $(this).find('.dropify-filename-inner').css('display', 'none');
+                }
+            );
+        </script>
+    @endpush
 @endsection

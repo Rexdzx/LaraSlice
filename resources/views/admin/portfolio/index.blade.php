@@ -1,5 +1,13 @@
 @extends('layouts.admin.app')
 
+@push('css')
+    <style>
+        .swal2-popup .swal2-styled:focus {
+            box-shadow: none !important;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="main-content">
         <section class="section">
@@ -49,10 +57,11 @@
                                             <th scope="row" style="text-align: center">
                                                 {{ ++$no }}</th>
                                             <td>{{ $item->nama }}</td>
-                                            <td><img src="{{ asset($item->foto) }}"
+                                            <td><img src="{{ asset('img/upload/pas_foto/' . $item->foto) }}"
                                                     width="100px"style="border-radius: 10px"></td>
                                             <td>{{ $item->judul }}</td>
-                                            <td><img src="{{ asset($item->portfolio) }}" width="120px"></td>
+                                            <td><img src="{{ asset('img/upload/portfolio/' . $item->portfolio) }}"
+                                                    width="120px" style="border-radius:10px; margin:5px 0"></td>
                                             <td class="text-center">
                                                 <a href="{{ route('admin.portfolio.edit', $item->id) }}"
                                                     class="btn btn-sm btn-primary">
@@ -86,4 +95,38 @@
 
         </section>
     </div>
+
+    <script>
+        function Delete(id) {
+            var formId = "#delete-form-" + id;
+            var form = $(formId);
+
+            Swal.fire({
+                title: 'Konfirmasi Hapus Data',
+                text: 'Anda yakin ingin menghapus data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#F2B807',
+                cancelButtonColor: '#fc544b',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Data Berhasil Dihapus!',
+                        icon: 'success',
+                        timer: 1000,
+                        showConfirmButton: false,
+                        showCancelButton: false,
+                        buttons: false,
+
+                    });
+                }
+            });
+
+            event.preventDefault();
+        }
+    </script>
 @endsection

@@ -48,76 +48,21 @@
             <div class="row">
                 <div class="swiper-container d-flex justify-content-center align-items-center py-5 ">
                     <div class="swiper-wrapper d-flex align-items-center">
-                        {{-- <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
-                            <div class="box-portfolio">
-                                <div class="info d-flex py-3" style="margin-left: 46px;">
-                                    <img src="img/avatar.jpg" class="rounded-circle" style="width: 60px;" alt="Avatar" />
-                                    <h3 class="align-items-center justify-content-center d-flex ms-2">Tux</h3>
-                                </div>
-                                <div class="img-portfolio">
-                                    <img src="{{ asset('img/robt.jpg') }}" class="img-fluid" alt="">
-                                </div>
-                                <h3 class="title mt-5"><a href="#">Robot 1</a></h3>
-                                <a class="portfolio-btn" href="#">Lihat Profil</a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
-                            <div class="box-portfolio">
-                                <div class=" info d-flex py-3" style="margin-left: 46px;">
-                                    <img src="{{ asset('img/avatar.jpg') }}" class="rounded-circle" style="width: 60px;"
-                                        alt="Avatar" />
-                                    <h3 class="align-items-center justify-content-center d-flex ms-2">Tuxx</h3>
-                                </div>
-                                <div class="img-portfolio">
-                                    <img src="{{ asset('img/robt.jpg') }}" class="img-fluid" alt="">
-                                </div>
-                                <h3 class="title mt-5"><a href="#">Robot 2</a></h3>
-                                <a class="portfolio-btn" href="#">Lihat Profil</a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
-                            <div class="box-portfolio">
-                                <div class="info d-flex py-3" style="margin-left: 46px;">
-                                    <img src="{{ asset('img/avatar.jpg') }}" class="rounded-circle" style="width: 60px;"
-                                        alt="Avatar" />
-                                    <h3 class="align-items-center justify-content-center d-flex ms-2">Tuxxx</h3>
-                                </div>
-                                <div class="img-portfolio">
-                                    <img src="{{ asset('img/robt.jpg') }}" class="img-fluid" alt="">
-                                </div>
-                                <h3 class="title mt-5"><a href="#">Robot 3</a></h3>
-                                <a class="portfolio-btn" href="#">Lihat Profil</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
-                            <div class="box-portfolio">
-                                <div class="info d-flex py-3" style="margin-left: 46px;">
-                                    <img src="{{ asset('img/avatar.jpg') }}" class="rounded-circle" style="width: 60px;"
-                                        alt="Avatar" />
-                                    <h3 class="align-items-center justify-content-center d-flex ms-2">Tuxxx</h3>
-                                </div>
-                                <div class="img-portfolio">
-                                    <img src="{{ asset('img/robt.jpg') }}" class="img-fluid" alt="">
-                                </div>
-                                <h3 class="title mt-5"><a href="#">Robot 3</a></h3>
-                                <a class="portfolio-btn" href="#">Lihat Profil</a>
-                            </div>
-                        </div> --}}
 
                         @foreach ($portfolio as $porto)
                             <div class="col-lg-4 mt-5 px-5 swiper-slide" data-aos="fade-up" data-aos-delay="600">
                                 <div class="box-portfolio">
                                     <div class="info d-flex py-3" style="margin-left: 46px;">
-                                        <img src="{{ $porto->foto }}" class="rounded-circle" style="width: 60px;"
+                                        <img src="{{ asset('img/upload/pas_foto/' . $porto->foto) }}" class="rounded-circle"
+                                            style="width: 60px; height:60px; object-position:top; object-fit:cover;"
                                             alt="Avatar" />
                                         <h3 class="align-items-center justify-content-center d-flex ms-2">
                                             {{ $porto->nama }}
                                         </h3>
                                     </div>
                                     <div class="img-portfolio">
-                                        <img src="{{ $porto->portfolio }}" class="img-fluid" alt="">
+                                        <img src="{{ asset('img/upload/portfolio/' . $porto->portfolio) }}"
+                                            class="img-fluid" alt="">
                                     </div>
                                     <h3 class="title mt-5"><a href="#">{{ $porto->judul }}</a></h3>
                                     <a class="portfolio-btn" href="#">Lihat Profil</a>

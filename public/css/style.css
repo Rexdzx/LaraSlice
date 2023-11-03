@@ -613,7 +613,7 @@ svg {
 .portfolio .head h4 {
     color: var(--primary-color);
     font-family: var(--font-primary);
-    font-size: 36px;
+    /* font-size: 36px; */
     position: relative;
     font-weight: bolder;
     top: 0;
@@ -645,10 +645,11 @@ svg {
 } */
 
 .box-portfolio h3 {
-    font-size: 36px;
+    /* font-size: 36px; */
     font-weight: 600;
     line-height: 34px;
     letter-spacing: 1.2px;
+    margin-left: 38px;
 }
 
 
@@ -704,10 +705,10 @@ svg {
 }
 
 .box-portfolio .title a {
-    font-size: 36px;
+    /* font-size: 36px; */
     color: var(--primary-color);
     font-weight: 700;
-    margin: 15px 0 0 46px;
+    margin: 15px 0 0 0;
     position: relative;
     transition: 0.3s;
 }

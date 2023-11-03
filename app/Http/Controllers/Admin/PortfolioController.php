@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -39,42 +40,42 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama'      => 'required|string',
-            'foto'      => 'required|image|mimes:png,jpg,jpeg|max:2048',
-            'portfolio' => 'required|image|mimes:png,jpg,jpeg',
-            'judul'     => 'required',
+            'nama'          => 'required|string',
+            'foto'          => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'portfolio'     => 'required|image|mimes:png,jpg,jpeg',
+            'judul'         => 'required',
         ]);
 
         if ($validator->fails()) {
             return $validator->errors();
         }
 
-        $foto           = $request->file('foto');
-        $portfolio      = $request->file('portfolio');
+        $foto               = $request->file('foto');
+        $portfolio          = $request->file('portfolio');
 
 
-        $fotoName       = Str::random(8) . '-' . $foto->getClientOriginalName();
-        $portfolioName  = Str::random(8) . '-' . $portfolio->getClientOriginalName();
+        $fotoName           = Str::random(8) . '-' . $foto->getClientOriginalName();
+        $portfolioName      = Str::random(8) . '-' . $portfolio->getClientOriginalName();
 
         Image::make($foto)->resize(350, 350, function ($constraint) {
             $constraint->aspectRatio();
-        })->save('img/upload/portfolio/' . $fotoName);;
+        })->save('img/upload/pas_foto/' . $fotoName);
 
         Image::make($portfolio)->resize(1080, 1080, function ($constraint) {
             $constraint->aspectRatio();
         })->save('img/upload/portfolio/' . $portfolioName);
 
-        $saveFoto       = 'img/upload/pas_foto/' . $fotoName;
-        $savePortfolio  = 'img/upload/portfolio/' . $portfolioName;
+        $saveFoto           = $fotoName;
+        $savePortfolio      = $portfolioName;
 
         Portfolio::create([
-            'nama'      => $request->nama,
-            'foto'      => $saveFoto,
-            'portfolio' => $savePortfolio,
-            'judul'     => $request->judul,
+            'nama'          => $request->nama,
+            'foto'          => $saveFoto,
+            'portfolio'     => $savePortfolio,
+            'judul'         => $request->judul,
         ]);
 
-        return redirect()->route('admin.portfolio.index')->with('success', 'Data berhasil ditambah');
+        return redirect()->route('admin.portfolio.index')->with('success', 'Data Berhasil ditambah');
     }
 
     /**
@@ -82,7 +83,6 @@ class PortfolioController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -90,7 +90,9 @@ class PortfolioController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $portfolio = Portfolio::find($id);
+
+        return view('admin.portfolio.edit', compact('portfolio'));
     }
 
     /**
@@ -98,7 +100,70 @@ class PortfolioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'foto'          => 'image|mimes:png,jpg,jpeg|max:2048',
+            'portfolio'     => 'image|mimes:png,jpg,jpeg',
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        $model = Portfolio::findOrFail($id);
+
+        if ($request->file('foto') == null) {
+            $foto           = $model->foto;
+            $model->update([
+                'foto'      => $foto,
+            ]);
+        } else {
+            $foto           = $request->file('foto');
+            $fotoName       = Str::random(8) . '-' . $foto->getClientOriginalName();
+            Image::make($foto)->resize(120, false, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save('img/upload/pas_foto/' . $fotoName);
+
+            $oldFoto = $model->foto;
+
+            $model->update([
+                'foto'      => $fotoName,
+            ]);
+
+            if ($model) {
+                File::delete(public_path('img/upload/pas_foto/' . $oldFoto));
+            }
+        }
+
+        if ($request->file('portfolio') == null) {
+            $portfolio      = $model->portfolio;
+
+            $model->update([
+                'portfolio' => $portfolio,
+            ]);
+        } else {
+            $portfolio      = $request->file('portfolio');
+            $portfolioName  = Str::random(8) . '-' . $portfolio->getClientOriginalName();
+            Image::make($portfolio)->resize(1080, 1080, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save('img/upload/portfolio/' . $portfolioName);
+
+            $oldPortfolio = $model->portfolio;
+
+            $model->update([
+                'portfolio' => $portfolioName,
+            ]);
+
+            if ($model) {
+                File::delete(public_path('img/upload/portfolio/' . $oldPortfolio));
+            }
+        }
+
+        $model->update([
+            'nama'          => $request->nama,
+            'judul'         => $request->judul,
+        ]);
+
+        return redirect()->route('admin.portfolio.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -106,6 +171,10 @@ class PortfolioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $portfolio = Portfolio::find($id);
+        $portfolio->delete();
+
+        sleep(1);
+        return back();
     }
 }
