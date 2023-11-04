@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PortfolioController;
+use App\Models\About;
 use App\Models\Portfolio;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home', [
-        'portfolio' => Portfolio::all()
+        'portfolio' => Portfolio::all(),
+        'abouts'     => About::all(),
     ]);
 });
 
@@ -29,5 +31,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     Route::resource('portfolio', PortfolioController::class);
 
-    Route::resource('about', AboutController::class);
+    Route::resource('about', AboutController::class, ['except' => ['destroy', 'create', 'show']]);
 });

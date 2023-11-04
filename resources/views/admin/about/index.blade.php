@@ -23,22 +23,6 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('admin.about.index') }}" method="GET">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <a href="{{ route('admin.portfolio.create') }}" class="btn btn-primary"
-                                            style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
-                                    </div>
-                                    <input type="text" class="form-control" name="q"
-                                        placeholder="cari berdasarkan nama siswa">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
@@ -56,14 +40,14 @@
                                         <tr class="text-center">
                                             <th scope="row" style="text-align: center">
                                                 {{ ++$no }}</th>
-                                            <td><img class="my-3" src="{{ asset('img/upload/about/about1.jpg') }}"
-                                                    width="200px"style="border-radius: 10px"></td>
+                                            <td><img class="my-3" src="{{ asset('img/upload/about/' . $item->gambar1) }}"
+                                                    width="200px" height="200px" style="border-radius: 10px"></td>
 
-                                            <td><img class="my-3" src="{{ asset('img/upload/about/about2.jpg') }}"
-                                                    width="200px"style="border-radius: 10px"></td>
+                                            <td><img class="my-3" src="{{ asset('img/upload/about/' . $item->gambar2) }}"
+                                                    width="200px" style="border-radius: 10px"></td>
 
-                                            <td><img class="my-3" src="{{ asset('img/upload/about/about3.jpg') }}"
-                                                    width="200px"style="border-radius: 10px"></td>
+                                            <td><img class="my-3" src="{{ asset('img/upload/about/' . $item->gambar3) }}"
+                                                    width="200px" style="border-radius: 10px"></td>
 
                                             <td>{{ $item->deskripsi }}</td>
                                             <td class="text-center">
@@ -71,15 +55,6 @@
                                                     class="btn btn-sm btn-primary">
                                                     <i class="fa fa-pencil-alt"></i>
                                                 </a>
-
-                                                <button onClick="Delete(this.id)"
-                                                    class="btn btn-sm btn-danger"id="{{ $item->id }}">
-                                                    <form id="delete-form-{{ $item->id }}" method="POST"
-                                                        action="{{ route('admin.about.destroy', $item->id) }}">
-                                                        @csrf
-                                                        @method('DELETE')</form>
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                     @empty
@@ -97,38 +72,4 @@
 
         </section>
     </div>
-
-    <script>
-        function Delete(id) {
-            var formId = "#delete-form-" + id;
-            var form = $(formId);
-
-            Swal.fire({
-                title: 'Konfirmasi Hapus Data',
-                text: 'Anda yakin ingin menghapus data ini?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#F2B807',
-                cancelButtonColor: '#fc544b',
-                confirmButtonText: 'Hapus',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: 'Data Berhasil Dihapus!',
-                        icon: 'success',
-                        timer: 1000,
-                        showConfirmButton: false,
-                        showCancelButton: false,
-                        buttons: false,
-
-                    });
-                }
-            });
-
-            event.preventDefault();
-        }
-    </script>
 @endsection

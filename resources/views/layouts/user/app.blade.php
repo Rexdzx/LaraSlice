@@ -8,6 +8,7 @@
     <link rel="icon" href="{{ asset('img/logosm.png') }}">
 
     @include('includes.user.style')
+    @stack('css')
 
 </head>
 
@@ -20,6 +21,7 @@
     @include('includes.user.footer')
 
     @include('includes.user.script');
+    @stack('js')
 
 </body>
 
