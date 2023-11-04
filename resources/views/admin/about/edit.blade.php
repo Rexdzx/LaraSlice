@@ -2,6 +2,7 @@
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('vendor/dropify/dist/css/dropify.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
     <style>
         #image .dropify-wrapper {
@@ -28,6 +29,30 @@
         .dropify-infos-inner,
         .dropify-infos-message::before {
             content: none !important
+        }
+
+        .summernote-main {
+            background: #fff;
+            padding: 20px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: start;
+
+        }
+
+        .summernote-main {
+            display: flex;
+            width: 100%;
+            align-items: flex-start
+        }
+
+        @media only screen and (min-width: 1360px) {
+            .summernote-main {
+                max-width: 1280px;
+                /* margin-left: auto; */
+                margin-right: auto;
+                padding: 24px;
+            }
         }
     </style>
 @endpush
@@ -103,10 +128,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label>DESKRIPSI</label>
-                                <input type="text" name="deskripsi" value="{{ old('deskripsi', $about->deskripsi) }}"
+                                <label class="mt-5 ml-4">DESKRIPSI</label>
+                                {{-- <input type="text" name="deskripsi" value="{{ old('deskripsi', $about->deskripsi) }}"
                                     placeholder="Masukkan Deskripsi"
-                                    class="form-control @error('deskripsi') is-invalid @enderror">
+                                    class="form-control @error('deskripsi') is-invalid @enderror"> --}}
+
+                                <div class="summernote-main">
+                                    <textarea id="summernote" name="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror"></textarea>
+                                </div>
 
                                 @error('deskripsi')
                                     <div class="invalid-feedback" style="display: block">
@@ -118,7 +147,8 @@
 
                             <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
                                 SIMPAN</button>
-                            <button class="btn btn-danger btn-reset" type="reset"><i class="fa fa-redo"></i>
+                            <button class="btn btn-danger btn-reset" type="reset" id="resetSummernote"><i
+                                    class="fa fa-redo"></i>
                                 RESET</button>
 
                         </form>
@@ -130,6 +160,7 @@
 
     @push('js')
         <script type="text/javascript" src="{{ asset('vendor/dropify/dist/js/dropify.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
         <script type="text/javascript">
             $('.dropify').dropify({
                 messages: {
@@ -153,6 +184,39 @@
                     $(this).find('.dropify-filename-inner').css('display', 'none');
                 }
             );
+
+            let deskripsi = "{{ $about->deskripsi ?? 'Masukkan Deskripsi' }}'";
+            $('#summernote').summernote({
+                height: 400,
+                width: 1000,
+                disableResizeEditor: true,
+                spellCheck: false,
+                toolbar: [
+                    ["style", ["style"]],
+                    ["font", ["bold", "underline", "clear"]],
+                    ["fontname", ["fontname"]],
+                    ["color", ["color"]],
+                    ["para", ["ul", "ol", "paragraph"]],
+                    ["view", ["codeview"]]
+                ]
+            });
+
+            $('#summernote').summernote('code', deskripsi);
+
+            function resetSummernote() {
+                $('#summernote').summernote('code', '');
+                // Simpan status reset ke penyimpanan lokal
+                localStorage.setItem('summernoteReset', 'true');
+            }
+
+            $('#resetSummernote').on('click', resetSummernote);
+
+            // Cek apakah status reset ada di penyimpanan lokal saat halaman dimuat
+            let isReset = localStorage.getItem('summernoteReset');
+            if (isReset === 'true') {
+                // Hapus status reset dari penyimpanan lokal
+                localStorage.removeItem('summernoteReset');
+            }
         </script>
     @endpush
 @endsection

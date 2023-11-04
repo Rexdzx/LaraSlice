@@ -111,7 +111,7 @@
                         </div>
                         <div class="col-lg-7 col-md-6 content d-flex flex-column justify-content-center position-relative">
                             <h4>Tentang Kami</h4>
-                            <p>{{ $about->deskripsi }}
+                            <p>{!! $about->deskripsi !!}
                             </p>
                         </div>
                     </div>

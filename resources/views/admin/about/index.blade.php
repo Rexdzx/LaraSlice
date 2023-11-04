@@ -49,7 +49,7 @@
                                             <td><img class="my-3" src="{{ asset('img/upload/about/' . $item->gambar3) }}"
                                                     width="200px" style="border-radius: 10px"></td>
 
-                                            <td>{{ $item->deskripsi }}</td>
+                                            <td>{!! $item->deskripsi !!}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('admin.about.edit', $item->id) }}"
                                                     class="btn btn-sm btn-primary">

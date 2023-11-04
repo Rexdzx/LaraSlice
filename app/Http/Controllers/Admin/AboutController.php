@@ -150,6 +150,7 @@ class AboutController extends Controller
             'deskripsi'          => $request->deskripsi,
         ]);
 
+
         return redirect()->route('admin.about.index')->with('success', 'Data Berhasil Diubah');
     }
 

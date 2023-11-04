@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('gambar1');
             $table->string('gambar2');
             $table->string('gambar3');
-            $table->text('deskripsi');
+            $table->longText('deskripsi');
             $table->timestamps();
         });
     }
