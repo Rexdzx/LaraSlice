@@ -174,6 +174,11 @@ class PortfolioController extends Controller
         $portfolio = Portfolio::find($id);
         $portfolio->delete();
 
+        if ($portfolio) {
+            File::delete(public_path('img/upload/pas_foto/' . $portfolio->foto));
+            File::delete(public_path('img/upload/portfolio/' . $portfolio->portfolio));
+        }
+
         sleep(1);
         return back();
     }

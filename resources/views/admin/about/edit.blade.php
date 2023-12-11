@@ -185,7 +185,7 @@
                 }
             );
 
-            let deskripsi = "{{ $about->deskripsi ?? 'Masukkan Deskripsi' }}'";
+            let deskripsi = "{!! $about->deskripsi ?? 'Masukkan Deskripsi' !!}";
             $('#summernote').summernote({
                 height: 400,
                 width: 1000,

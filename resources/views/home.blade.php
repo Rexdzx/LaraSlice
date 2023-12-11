@@ -5,7 +5,6 @@
         .wrapper {
             display: flex;
             flex-direction: row;
-
         }
 
         .wrapper img {
